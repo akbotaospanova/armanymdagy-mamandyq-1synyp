@@ -1,0 +1,1 @@
+# armanymdagy-mamandyq-1synyp
