@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Менің арманымдағы мамандық — 1-сынып</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+<style>
+:root{
+  --g900:#0b3d24; --g800:#0f5132; --g700:#146c43; --g600:#1e8a55; --g400:#5cc98a; --g200:#c7f0d6;
+  --cream:#fffbea; --sun:#ffc93c; --coral:#ff6b5b; --sky:#4cc9f0; --plum:#8e5cf7; --ink:#173326;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:"Nunito",system-ui,sans-serif; color:var(--ink); min-height:100vh;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.10) 0 90px, transparent 91px),
+    radial-gradient(circle at 88% 8%, rgba(255,201,60,.18) 0 120px, transparent 121px),
+    radial-gradient(circle at 80% 85%, rgba(255,255,255,.07) 0 160px, transparent 161px),
+    linear-gradient(160deg, var(--g600) 0%, var(--g700) 45%, var(--g900) 100%);
+  background-attachment:fixed;
+}
+h1,h2,h3{font-family:"Rubik",sans-serif;margin:0}
+button{font-family:inherit;cursor:pointer}
+.leaves{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.leaves span{position:absolute;font-size:28px;opacity:.25;animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(-60px) rotate(0)}to{transform:translateY(110vh) rotate(360deg)}}
+
+header{position:relative;z-index:2;padding:22px 16px 6px;text-align:center;color:#fff}
+.badge{display:inline-block;background:var(--sun);color:var(--g900);font-weight:800;padding:6px 14px;border-radius:999px;font-size:14px;box-shadow:0 4px 0 #c99a12}
+header h1{font-size:clamp(28px,5vw,48px);margin:12px 0 6px;text-shadow:0 4px 0 rgba(0,0,0,.18);letter-spacing:.5px}
+header p{margin:0;opacity:.92;font-weight:700}
+
+/* station path nav */
+nav{position:sticky;top:0;z-index:5;padding:10px 8px;background:rgba(11,61,36,.72);backdrop-filter:blur(8px);border-bottom:3px dashed rgba(255,255,255,.25)}
+.track{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;max-width:1100px;margin:0 auto;padding:2px}
+.track::-webkit-scrollbar{display:none}
+.stop{flex:0 0 auto;border:none;background:var(--cream);color:var(--g800);border-radius:18px;padding:8px 12px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .15s}
+.stop .n{width:24px;height:24px;border-radius:50%;background:var(--g400);color:#fff;display:grid;place-items:center;font-size:12px}
+.stop:hover{transform:translateY(-2px)}
+.stop.on{background:var(--sun);color:var(--g900)}
+.stop.on .n{background:var(--g800)}
+
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:22px 14px 60px}
+section{display:none;animation:pop .35s ease}
+section.on{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+
+.card{background:var(--cream);border-radius:28px;padding:24px;box-shadow:0 10px 0 rgba(0,0,0,.18),0 20px 40px rgba(0,0,0,.18);position:relative}
+.card + .card{margin-top:20px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px;background:var(--g200);color:var(--g800);margin-bottom:10px}
+.tag.v{background:#ffe8a3;color:#7a5600}
+.title{font-size:clamp(22px,3.4vw,32px);color:var(--g800);margin-bottom:6px}
+.lead{font-size:18px;font-weight:700;margin:0 0 16px;color:#2d4a3c}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.btn{border:none;border-radius:16px;padding:12px 20px;font-weight:800;font-size:17px;background:var(--g700);color:#fff;box-shadow:0 5px 0 var(--g900);transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--g900)}
+.btn.sun{background:var(--sun);color:var(--g900);box-shadow:0 5px 0 #c99a12}
+.btn.ghost{background:#fff;color:var(--g800);box-shadow:0 5px 0 #b9d8c5}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+.quote{background:linear-gradient(135deg,var(--sun),#ffdf7e);border-radius:24px;padding:22px;text-align:center;box-shadow:0 6px 0 #c99a12}
+.quote small{font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6b4a00}
+.quote b{display:block;font-family:"Rubik";font-size:clamp(24px,4vw,36px);color:var(--g900);margin-top:6px}
+.hands{font-size:44px;margin-top:6px;animation:wave 2s ease-in-out infinite}
+@keyframes wave{50%{transform:scale(1.12)}}
+.plan{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.plan li{background:#fff;border-radius:14px;padding:10px 14px;font-weight:800;display:flex;gap:10px;align-items:center;border:2px solid var(--g200)}
+.plan li i{font-style:normal;font-size:22px}
+
+/* riddles flip */
+.flip{perspective:900px;height:210px}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d;cursor:pointer}
+.flip.open .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:800}
+.front{background:var(--g700);color:#fff;font-size:18px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.2)}
+.front .q{font-size:34px;margin-bottom:8px}
+.back{background:#fff;border:4px solid var(--g400);transform:rotateY(180deg);font-size:22px;color:var(--g800)}
+.back .e{font-size:64px}
+
+/* match */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chip{width:100%;border:3px solid var(--g200);background:#fff;border-radius:18px;padding:12px;font-weight:800;font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--ink);transition:.15s}
+.chip .em{font-size:32px}
+.chip.sel{border-color:var(--sun);background:#fff6d6;transform:scale(1.03)}
+.chip.ok{border-color:var(--g400);background:#e3f9ea;opacity:.75;pointer-events:none}
+.chip.bad{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.msg{min-height:30px;font-weight:800;font-size:18px;text-align:center;margin-top:8px;color:var(--g700)}
+.score{display:inline-flex;gap:6px;align-items:center;background:var(--g800);color:#fff;border-radius:999px;padding:6px 14px;font-weight:800}
+
+/* house */
+.house-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:center}
+@media(max-width:760px){.house-wrap{grid-template-columns:1fr}.cols{grid-template-columns:1fr}}
+.house svg{width:100%;max-width:420px;display:block;margin:auto}
+.house .part{opacity:0;transition:opacity .6s, transform .6s;transform-origin:center bottom}
+.house .part.show{opacity:1}
+.steps{display:grid;gap:10px}
+.done-banner{display:none;margin-top:14px;background:var(--sun);border-radius:18px;padding:14px;text-align:center;font-family:Rubik;font-size:22px;color:var(--g900)}
+
+/* tree */
+.tree-box{position:relative;background:linear-gradient(#e9fbf0,#fff);border-radius:22px;border:3px solid var(--g200);overflow:hidden}
+.tree-box svg{width:100%;display:block}
+.leaf{position:absolute;transform:translate(-50%,-50%) scale(0);animation:grow .5s forwards;background:var(--g400);color:#fff;border-radius:60% 0 60% 0;padding:8px 10px;font-weight:800;font-size:13px;text-align:center;min-width:70px;box-shadow:0 4px 0 var(--g700)}
+.leaf b{display:block;font-size:24px}
+@keyframes grow{to{transform:translate(-50%,-50%) scale(1)}}
+.picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin:10px 0}
+.pick{border:3px solid var(--g200);background:#fff;border-radius:14px;padding:8px 4px;font-weight:800;font-size:13px;color:var(--ink)}
+.pick span{display:block;font-size:28px}
+.pick.sel{border-color:var(--sun);background:#fff6d6}
+input[type=text]{width:100%;font:inherit;font-weight:800;font-size:18px;padding:12px 14px;border-radius:14px;border:3px solid var(--g200);outline:none}
+input[type=text]:focus{border-color:var(--g400)}
+.frame{background:#fff;border-radius:16px;padding:12px 14px;font-weight:800;border-left:6px solid var(--sun);margin:10px 0}
+
+/* wheel */
+.wheel-area{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+@media(max-width:760px){.wheel-area{grid-template-columns:1fr}}
+.wheel-holder{position:relative;width:min(380px,90vw);aspect-ratio:1;margin:auto}
+.pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid var(--coral);z-index:3;filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+#wheel{width:100%;height:100%;transition:transform 4s cubic-bezier(.17,.67,.2,1);border-radius:50%;box-shadow:0 0 0 10px #fff,0 0 0 16px var(--sun),0 14px 30px rgba(0,0,0,.3)}
+.hub{position:absolute;inset:0;margin:auto;width:74px;height:74px;border-radius:50%;background:var(--g800);color:#fff;border:6px solid #fff;display:grid;place-items:center;font-family:Rubik;font-weight:800;font-size:15px;z-index:2}
+.qcard{background:#fff;border-radius:22px;padding:20px;border:4px dashed var(--g400);min-height:220px}
+.qcard .kind{font-weight:800;color:var(--plum);text-transform:uppercase;font-size:13px;letter-spacing:1px}
+.qcard h3{font-size:24px;margin:8px 0 12px;color:var(--g800)}
+.ans{display:none;background:#e3f9ea;border-radius:14px;padding:10px 14px;font-weight:800;margin-top:10px;font-size:18px}
+.players{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pl{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:#b6c9be}
+.pl.done{background:var(--g600)}
+
+/* traffic light */
+.tl-wrap{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
+@media(max-width:640px){.tl-wrap{grid-template-columns:1fr}}
+.tl{background:#263238;border-radius:30px;padding:14px;display:grid;gap:12px;width:130px;margin:auto;box-shadow:0 8px 0 #11181b}
+.lamp{width:100px;height:100px;border-radius:50%;border:none;opacity:.35;transition:.2s;font-size:34px}
+.lamp.r{background:#ff4b4b}.lamp.y{background:#ffd43b}.lamp.g{background:#40c057}
+.lamp.lit{opacity:1;box-shadow:0 0 30px currentColor}
+.lamp.r.lit{color:#ff4b4b}.lamp.y.lit{color:#ffd43b}.lamp.g.lit{color:#40c057}
+.tl-text{background:#fff;border-radius:20px;padding:20px;min-height:180px;border:4px solid var(--g200)}
+.tl-text h3{font-size:30px;margin-bottom:8px}
+.tl-text p{font-size:19px;font-weight:700;margin:6px 0}
+.sit{background:#fff;border-radius:20px;padding:16px;border:3px solid var(--g200);display:flex;flex-direction:column;gap:10px}
+.sit p{margin:0;font-weight:800;font-size:17px;flex:1}
+.sit .row{display:flex;gap:8px}
+.sit .row button{flex:1;border:none;border-radius:12px;padding:10px;font-weight:800;font-size:16px;color:#fff}
+.yes{background:var(--g600);box-shadow:0 4px 0 var(--g800)}
+.no{background:var(--coral);box-shadow:0 4px 0 #b8433a}
+.fb{font-weight:800;font-size:15px;border-radius:10px;padding:8px 10px;display:none}
+.fb.ok{display:block;background:#e3f9ea;color:var(--g800)}
+.fb.err{display:block;background:#ffe3df;color:#a33}
+.heart{background:linear-gradient(135deg,#ff8fa3,#ff6b5b);color:#fff;border-radius:24px;padding:20px}
+.heart h3{font-size:24px;margin-bottom:8px}
+.heart ol{margin:0;padding-left:22px;font-weight:800;font-size:18px;line-height:1.6}
+
+/* reflection */
+.sky{background:linear-gradient(#1b2a5a,#3b4c9b);border-radius:26px;padding:24px;color:#fff;text-align:center}
+.stars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media(max-width:640px){.stars{grid-template-columns:1fr}}
+.starbtn{border:none;border-radius:20px;padding:16px 10px;background:rgba(255,255,255,.12);color:#fff;font-weight:800;font-size:16px;transition:.15s}
+.starbtn:hover{background:rgba(255,255,255,.22)}
+.starbtn .s{font-size:56px;display:block}
+.starbtn .c{display:inline-block;margin-top:6px;background:#fff;color:#1b2a5a;border-radius:999px;padding:2px 12px}
+.hw{border-radius:20px;padding:18px;color:#fff}
+.hw h3{font-size:22px;margin-bottom:6px}
+.hw p{margin:4px 0;font-weight:700}
+.hw.a{background:var(--g600)}.hw.b{background:#2f9e8f}.hw.c{background:var(--plum)}
+.foot{text-align:center;color:#d8f3e2;font-weight:700;margin-top:26px;font-size:14px}
+.next{display:flex;justify-content:flex-end;margin-top:18px}
+.confetti{position:fixed;top:-20px;width:12px;height:16px;z-index:50;pointer-events:none;animation:conf 1.8s ease-in forwards}
+@keyframes conf{to{transform:translateY(110vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="leaves" id="leaves"></div>
+
+<header>
+  <span class="badge">1-сынып · Сынып сағаты · Бірлік және ынтымақ айы</span>
+  <h1>🌟 Менің арманымдағы мамандық</h1>
+  <p>Қауіпсіздік сабағы: «Досыңызды ренжітсе не істеу керек?»</p>
+</header>
+
+<nav>
+  <div class="track" id="track"></div>
+</nav>
+
+<main>
+
+<!-- 0 HOME -->
+<section id="s-home" data-title="Сәлем!" data-ico="🏡">
+  <div class="card">
+    <div class="hero">
+      <div>
+        <span class="tag">🤝 Шаттық шеңбері</span>
+        <h2 class="title">Қайырлы күн, балалар!</h2>
+        <p class="lead">Қолды қолға берейік, бір-бірімізге күлімдейік. Бүгін біз арман-мамандықтар еліне саяхатқа шығамыз!</p>
+        <ul class="plan">
+          <li><i>🎁</i> Жұмбақ сандығы</li>
+          <li><i>🔗</i> 1-тапсырма: Кімге не керек?</li>
+          <li><i>🏠</i> 2-тапсырма: Бірге бір үй салайық</li>
+          <li><i>🌳</i> 3-тапсырма: Арман ағашы</li>
+          <li><i>🎡</i> Зияткерлік алаң (7 оқушы)</li>
+          <li><i>🚦</i> Қауіпсіздік: Достық бағдаршамы</li>
+          <li><i>⭐</i> Рефлексия және үй тапсырмасы</li>
+        </ul>
+      </div>
+      <div>
+        <div class="quote">
+          <small>Апта дәйексөзі</small>
+          <b>«Бірлігі күшті ел озады»</b>
+          <div class="hands">🤝🧑‍🤝‍🧑🤝</div>
+        </div>
+        <p class="lead" style="margin-top:16px;text-align:center">Бәріміз бірге хормен айтайық!</p>
+        <div style="text-align:center"><button class="btn sun" onclick="go(1)">Саяхатты бастау ▶</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 RIDDLES -->
+<section id="s-riddle" data-title="Жұмбақ" data-ico="🎁">
+  <div class="card">
+    <span class="tag">🎁 Сиқырлы қапшық · Жұмбақ сандығы</span>
+    <h2 class="title">Жұмбақты шеш — мамандықты тап!</h2>
+    <p class="lead">Карточканы басып, жауабын көр.</p>
+    <div class="grid g2" id="riddles"></div>
+    <div class="frame">💬 Сұрақ: «Мамандық деген не?», «Сенің ата-анаң кім болып жұмыс істейді?»</div>
+    <div class="next"><button class="btn" onclick="go(2)">Келесі станция ▶</button></div>
+  </div>
+</section>
+
+<!-- 2 MATCH -->
+<section id="s-match" data-title="1-тапсырма" data-ico="🔗">
+  <div class="card">
+    <span class="tag">🔗 1-тапсырма · Сәйкестендіру ойыны</span> <span class="tag v">💛 Құндылық: еңбекқорлық</span>
+    <h2 class="title">Кімге не керек?</h2>
+    <p class="lead">Алдымен мамандықты, содан кейін оның құралын бас.</p>
+    <div style="text-align:center;margin-bottom:12px"><span class="score">⭐ <span id="mScore">0</span> / 6</span></div>
+    <div class="cols">
+      <div id="mLeft"></div>
+      <div id="mRight"></div>
+    </div>
+    <div class="msg" id="mMsg"></div>
+    <div class="next"><button class="btn ghost" onclick="buildMatch()">↻ Қайта ойнау</button>&nbsp;<button class="btn" onclick="go(3)">Келесі ▶</button></div>
+  </div>
+  <div class="card">
+    <span class="tag">💃 Сергіту сәті</span>
+    <h2 class="title">Мамандық биі</h2>
+    <p class="lead">Мен мамандықты айтамын — сен қимылмен көрсет!</p>
+    <div class="grid g3">
+      <div class="frame">🧑‍🍳 Аспаз — қамыр илейді</div>
+      <div class="frame">🚗 Жүргізуші — рөл бұрайды</div>
+      <div class="frame">🧑‍✈️ Ұшқыш — қанат қағады</div>
+      <div class="frame">🧑‍🌾 Бағбан — гүл суарады</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 HOUSE -->
+<section id="s-house" data-title="2-тапсырма" data-ico="🏠">
+  <div class="card">
+    <span class="tag">🏠 2-тапсырма · Топтық жұмыс</span> <span class="tag v">💛 Құндылық: бірлік және ынтымақ</span>
+    <h2 class="title">Бірге бір үй салайық!</h2>
+    <p class="lead">Үй салу үшін көп мамандық иесі керек. Кім бірінші, кім келесі? Ретімен бас!</p>
+    <div class="house-wrap">
+      <div class="house">
+        <svg viewBox="0 0 400 330" aria-label="Үй">
+          <rect x="0" y="290" width="400" height="40" fill="#7cc576"/>
+          <g class="part" id="h1">
+            <rect x="80" y="130" width="240" height="160" fill="none" stroke="#4cc9f0" stroke-width="4" stroke-dasharray="10 8"/>
+            <polygon points="60,135 200,40 340,135" fill="none" stroke="#4cc9f0" stroke-width="4" stroke-dasharray="10 8"/>
+            <text x="200" y="215" text-anchor="middle" font-size="18" fill="#4cc9f0" font-weight="800">сызба</text>
+          </g>
+          <g class="part" id="h2">
+            <rect x="80" y="130" width="240" height="160" fill="#e9d8c4" stroke="#b08968" stroke-width="4"/>
+            <g stroke="#c9ad8e" stroke-width="2">
+              <line x1="80" y1="170" x2="320" y2="170"/><line x1="80" y1="210" x2="320" y2="210"/><line x1="80" y1="250" x2="320" y2="250"/>
+            </g>
+            <polygon points="60,135 200,40 340,135" fill="#b08968"/>
+            <rect x="175" y="210" width="50" height="80" fill="#8d6e63"/>
+            <rect x="105" y="160" width="50" height="45" fill="#cfd8dc" stroke="#fff" stroke-width="4"/>
+            <rect x="245" y="160" width="50" height="45" fill="#cfd8dc" stroke="#fff" stroke-width="4"/>
+          </g>
+          <g class="part" id="h3">
+            <rect x="105" y="160" width="50" height="45" fill="#ffe066" stroke="#fff" stroke-width="4"/>
+            <rect x="245" y="160" width="50" height="45" fill="#ffe066" stroke="#fff" stroke-width="4"/>
+            <circle cx="200" cy="100" r="12" fill="#ffe066" stroke="#fff" stroke-width="3"/>
+          </g>
+          <g class="part" id="h4">
+            <rect x="80" y="130" width="240" height="160" fill="#ffd6a5" stroke="#e76f51" stroke-width="4"/>
+            <polygon points="60,135 200,40 340,135" fill="#e63946"/>
+            <rect x="175" y="210" width="50" height="80" fill="#2a9d8f"/><circle cx="215" cy="252" r="4" fill="#ffd166"/>
+            <rect x="105" y="160" width="50" height="45" fill="#ffe066" stroke="#fff" stroke-width="4"/>
+            <rect x="245" y="160" width="50" height="45" fill="#ffe066" stroke="#fff" stroke-width="4"/>
+            <circle cx="200" cy="100" r="12" fill="#ffe066" stroke="#fff" stroke-width="3"/>
+          </g>
+          <g class="part" id="h5">
+            <rect x="350" y="230" width="12" height="60" fill="#8d6e63"/>
+            <circle cx="356" cy="215" r="30" fill="#2b9348"/><circle cx="340" cy="230" r="20" fill="#55a630"/>
+            <circle cx="30" cy="278" r="10" fill="#ff6b6b"/><circle cx="50" cy="282" r="9" fill="#ffd166"/><circle cx="70" cy="279" r="10" fill="#c77dff"/>
+            <text x="200" y="22" text-anchor="middle" font-size="22">☀️ 🐦</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="steps" id="hSteps"></div>
+        <div class="msg" id="hMsg">Кім бірінші бастайды? 🤔</div>
+        <div class="done-banner" id="hDone">🎉 Үй дайын! Бірлігі күшті ел озады!<br><span style="font-size:16px;font-family:Nunito">Бір адам жалғыз үй сала ала ма? Жоқ! Бірге болсақ — бәрін жасаймыз.</span></div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" onclick="buildHouse()">↻ Қайта салу</button>&nbsp;<button class="btn" onclick="go(4)">Келесі ▶</button></div>
+  </div>
+</section>
+
+<!-- 4 TREE -->
+<section id="s-tree" data-title="3-тапсырма" data-ico="🌳">
+  <div class="card">
+    <span class="tag">🌳 3-тапсырма · Арман ағашы</span> <span class="tag v">💛 Құндылық: мақсаттылық, білімге құштарлық</span>
+    <h2 class="title">Менің арманым — ағашта жапырақ!</h2>
+    <div class="grid g2" style="align-items:start">
+      <div>
+        <p class="lead" style="margin-bottom:8px">1. Атыңды жаз</p>
+        <input type="text" id="tName" placeholder="Мысалы: Айсұлу" maxlength="16">
+        <p class="lead" style="margin:14px 0 0">2. Арманыңдағы мамандықты таңда</p>
+        <div class="picker" id="tPick"></div>
+        <div class="frame">🗣 Айт: «Мен <b id="tSay">...</b> болғым келеді, себебі ...»</div>
+        <button class="btn sun" onclick="addLeaf()">🍃 Жапырақ қосу</button>
+        <div class="msg" id="tMsg"></div>
+      </div>
+      <div class="tree-box" id="treeBox">
+        <svg viewBox="0 0 400 400">
+          <rect x="182" y="230" width="36" height="150" rx="10" fill="#8d6e63"/>
+          <path d="M200 280 L150 240 M200 300 L255 250" stroke="#8d6e63" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="200" cy="150" r="120" fill="#b7e4c7"/>
+          <circle cx="120" cy="190" r="70" fill="#95d5b2"/>
+          <circle cx="285" cy="185" r="72" fill="#95d5b2"/>
+          <circle cx="200" cy="95" r="80" fill="#b7e4c7"/>
+          <rect x="0" y="375" width="400" height="25" fill="#74c69d"/>
+        </svg>
+      </div>
+    </div>
+    <div class="next"><button class="btn" onclick="go(5)">Келесі ▶</button></div>
+  </div>
+</section>
+
+<!-- 5 WHEEL -->
+<section id="s-wheel" data-title="Зияткерлік алаң" data-ico="🎡">
+  <div class="card">
+    <span class="tag">🎡 Зияткерлік алаң · 7 оқушыға</span> <span class="tag v">💛 Құндылық: білім, достық, әділ жарыс</span>
+    <h2 class="title">Даналық дөңгелегі</h2>
+    <p class="lead">7 оқушы кезекпен дөңгелекті айналдырып, түскен сұраққа жауап береді. Қалғандары — жанкүйер!</p>
+    <div class="wheel-area">
+      <div>
+        <div class="wheel-holder">
+          <div class="pointer"></div>
+          <svg id="wheel" viewBox="-100 -100 200 200"></svg>
+          <div class="hub">7</div>
+        </div>
+        <div style="text-align:center;margin-top:22px"><button class="btn sun" id="spinBtn" onclick="spin()">🎡 Айналдыру</button></div>
+      </div>
+      <div>
+        <div class="qcard" id="qcard">
+          <div class="kind">Дайынсың ба?</div>
+          <h3>Дөңгелекті айналдыр — сұрақ осы жерде шығады!</h3>
+        </div>
+        <div class="players" id="players"></div>
+        <div style="margin-top:10px"><span class="score">⭐ Жұлдызшалар: <span id="wScore">0</span></span></div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" onclick="resetWheel()">↻ Басынан</button>&nbsp;<button class="btn" onclick="go(6)">Келесі ▶</button></div>
+  </div>
+</section>
+
+<!-- 6 SAFETY -->
+<section id="s-safe" data-title="Қауіпсіздік" data-ico="🚦">
+  <div class="card">
+    <span class="tag">🛡 Қауіпсіздік сабағы</span> <span class="tag v">💛 Құндылық: достық, жанашырлық, жауапкершілік</span>
+    <h2 class="title">Досыңызды ренжітсе не істеу керек?</h2>
+    <div class="frame" style="border-left-color:var(--coral)">📖 Айдананың жағасы. Үзілісте бір бала Айдананың суретін күлкі қылып, оны ойынға қоспады. Айдана мұңайып, жылағысы келді. <b>Сен оның досы болсаң, не істейсің?</b></div>
+    <p class="lead">Бағдаршамның шамын бас — достық ережесін біл!</p>
+    <div class="tl-wrap">
+      <div class="tl">
+        <button class="lamp r" onclick="lamp(0)">✋</button>
+        <button class="lamp y" onclick="lamp(1)">🤔</button>
+        <button class="lamp g" onclick="lamp(2)">🤗</button>
+      </div>
+      <div class="tl-text" id="tlText">
+        <h3 style="color:var(--g800)">Достық бағдаршамы</h3>
+        <p>Үш түсті ретімен бас: қызыл → сары → жасыл.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="tag">✅ Ойын</span>
+    <h2 class="title">Дұрыс па, бұрыс па?</h2>
+    <p class="lead">Жағдаятты оқы да, батырманы бас. Неге екенін түсіндір!</p>
+    <div class="grid g2" id="sits"></div>
+    <div style="text-align:center;margin-top:14px"><span class="score">⭐ <span id="sScore">0</span> / 6</span></div>
+  </div>
+  <div class="card heart">
+    <h3>💖 Жадынама «Достық жүрегі»</h3>
+    <ol>
+      <li>Досың ренжісе — өтіп кетпе, жанына бар.</li>
+      <li>Батыл, бірақ сабырмен айт: «Тоқта, олай істеме!»</li>
+      <li>Төбелеспе — сөзбен шеш.</li>
+      <li>Досыңды жұбат, ойынға шақыр.</li>
+      <li>Қайталанса — мұғалімге, ата-анаңа айт. Бұл — көмек сұрау!</li>
+    </ol>
+    <div class="next"><button class="btn sun" onclick="go(7)">Рефлексия ▶</button></div>
+  </div>
+</section>
+
+<!-- 7 REFLECTION -->
+<section id="s-end" data-title="Рефлексия" data-ico="⭐">
+  <div class="card">
+    <span class="tag">⭐ Рефлексия «Арман жұлдызы»</span>
+    <div class="sky">
+      <h2 style="font-size:28px">Бүгінгі сабақ саған қалай болды?</h2>
+      <p style="font-weight:700;opacity:.9">Өз жұлдызыңды бас</p>
+      <div class="stars">
+        <button class="starbtn" onclick="vote(0)"><span class="s">🌟</span>Бәрін түсіндім,<br>қатты ұнады!<br><span class="c" id="v0">0</span></button>
+        <button class="starbtn" onclick="vote(1)"><span class="s">⭐</span>Түсіндім,<br>сұрағым бар<br><span class="c" id="v1">0</span></button>
+        <button class="starbtn" onclick="vote(2)"><span class="s">✨</span>Кейбір жері<br>қиын болды<br><span class="c" id="v2">0</span></button>
+      </div>
+      <p style="font-weight:800;margin-top:16px">«Бүгін мен ... туралы білдім» · «Досымды біреу ренжітсе, мен ...»</p>
+    </div>
+  </div>
+  <div class="card">
+    <span class="tag">🏡 Үй тапсырмасы</span>
+    <h2 class="title">«Менің арманымдағы мамандық»</h2>
+    <p class="lead">Өз күшіңе қарай бір тапсырманы таңда:</p>
+    <div class="grid g3">
+      <div class="hw a"><h3>🎨 А деңгей</h3><p>Арманыңдағы мамандықтың суретін сал. Астына атын ата-анаңмен бірге жаз.</p></div>
+      <div class="hw b"><h3>🎤 В деңгей</h3><p>Ата-анаңнан сұхбат ал: «Сіздің мамандығыңыз қандай? Ол адамдарға қандай пайда әкеледі?» 2–3 сөйлеммен айтып бер.</p></div>
+      <div class="hw c"><h3>🌳 С деңгей</h3><p>«Отбасымыздың мамандық ағашын» жаса: әже-ата, ата-ана және өз арманың.</p></div>
+    </div>
+    <div class="frame" style="margin-top:16px">💖 Апта бойы бір досыңа жылы сөз айт немесе көмектес — «Достық жүрегіне» стикер жапсыр.</div>
+    <div class="quote" style="margin-top:16px"><small>Апта дәйексөзі</small><b>«Бірлігі күшті ел озады»</b></div>
+  </div>
+  <p class="foot">Сау болыңдар, болашақ мамандар! 🌱</p>
+</section>
+
+</main>
+
+<script>
+/* ---------- nav ---------- */
+const secs=[...document.querySelectorAll('section')];
+const track=document.getElementById('track');
+secs.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='stop';b.innerHTML=`<span class="n">${i}</span>${s.dataset.ico} ${s.dataset.title}`;
+  b.onclick=()=>go(i);track.appendChild(b);
+});
+const hashes=['home','riddle','match','house','tree','wheel','safe','end'];
+function go(i){
+  secs.forEach((s,k)=>s.classList.toggle('on',k===i));
+  [...track.children].forEach((b,k)=>b.classList.toggle('on',k===i));
+  track.children[i].scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
+  try{history.replaceState(null,'','#'+hashes[i])}catch(e){}
+}
+const h0=hashes.indexOf((location.hash||'').slice(1));go(h0>=0?h0:0);
+
+/* ---------- effects ---------- */
+const lv=document.getElementById('leaves');
+for(let i=0;i<14;i++){const s=document.createElement('span');s.textContent=['🍃','🌿','✨','🍀'][i%4];s.style.left=Math.random()*100+'%';s.style.animationDuration=(12+Math.random()*14)+'s';s.style.animationDelay=(-Math.random()*20)+'s';lv.appendChild(s)}
+let ac;
+function beep(ok){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='triangle';const t=ac.currentTime;
+  if(ok){o.frequency.setValueAtTime(660,t);o.frequency.setValueAtTime(880,t+.12)}else{o.frequency.setValueAtTime(220,t)}
+  g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.start(t);o.stop(t+.36)}catch(e){}}
+function confetti(n=40){const c=['#ffc93c','#ff6b5b','#4cc9f0','#8e5cf7','#5cc98a','#fff'];for(let i=0;i<n;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=c[i%c.length];d.style.animationDelay=Math.random()*.6+'s';d.style.borderRadius=i%2?'50%':'3px';document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- riddles ---------- */
+const riddles=[
+  ['Ақ халат киеді, ауруды емдейді, «Аузыңды аш!» дейді. Бұл кім?','👩‍⚕️','Дәрігер'],
+  ['Ұн мен судан нан пісірер, таңертеңнен еңбек етер. Бұл кім?','🧑‍🍳','Наубайшы'],
+  ['Бор алып тақтаға жазады, бізге әліппені үйретеді. Бұл кім?','👩‍🏫','Мұғалім'],
+  ['Қызыл көлікпен жетеді, жалынды өрттен құтқарады. Бұл кім?','🧑‍🚒','Өрт сөндіруші']
+];
+document.getElementById('riddles').innerHTML=riddles.map(r=>`<div class="flip" onclick="this.classList.toggle('open');beep(1)"><div class="in"><div class="face front"><div class="q">❓</div>${r[0]}</div><div class="face back"><div class="e">${r[1]}</div>${r[2]}</div></div></div>`).join('');
+
+/* ---------- match ---------- */
+const pairs=[['Дәрігер','👩‍⚕️','Фонендоскоп','🩺'],['Суретші','🧑‍🎨','Қылқалам','🖌️'],['Ұшқыш','🧑‍✈️','Ұшақ','✈️'],['Фермер','🧑‍🌾','Трактор','🚜'],['Құрылысшы','👷','Кірпіш','🧱'],['Шаштараз','💇','Қайшы','✂️']];
+const benefit={'Дәрігер':'Дәрігер адамдарды емдейді 💚','Суретші':'Суретші әлемді әдемі етеді 🎨','Ұшқыш':'Ұшқыш адамдарды алыс қалаларға жеткізеді ✈️','Фермер':'Фермер бізге нан мен көкөніс өсіреді 🌾','Құрылысшы':'Құрылысшы үй мен мектеп салады 🏫','Шаштараз':'Шаштараз бізді сәнді етеді ✨'};
+let mSel=null,mScore=0;
+function buildMatch(){
+  mSel=null;mScore=0;document.getElementById('mScore').textContent=0;document.getElementById('mMsg').textContent='';
+  const L=document.getElementById('mLeft'),R=document.getElementById('mRight');
+  L.innerHTML=shuffle(pairs).map(p=>`<button class="chip" data-k="${p[0]}" data-side="L"><span class="em">${p[1]}</span>${p[0]}</button>`).join('');
+  R.innerHTML=shuffle(pairs).map(p=>`<button class="chip" data-k="${p[0]}" data-side="R"><span class="em">${p[3]}</span>${p[2]}</button>`).join('');
+  [...L.children].forEach(b=>b.onclick=()=>{[...L.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mSel=b});
+  [...R.children].forEach(b=>b.onclick=()=>{
+    const msg=document.getElementById('mMsg');
+    if(!mSel){msg.textContent='Алдымен мамандықты таңда 👈';return}
+    if(b.dataset.k===mSel.dataset.k){b.classList.add('ok');mSel.classList.add('ok');mSel.classList.remove('sel');beep(1);mScore++;document.getElementById('mScore').textContent=mScore;msg.textContent='Жарайсың! '+benefit[b.dataset.k];mSel=null;if(mScore===6){msg.textContent='🎉 Бәрін таптың! Әр мамандық — қадірлі!';confetti()}}
+    else{b.classList.add('bad');beep(0);msg.textContent='Тағы ойланып көр 🙂';setTimeout(()=>b.classList.remove('bad'),400)}
+  });
+}
+buildMatch();
+
+/* ---------- house ---------- */
+const hOrder=[['Сәулетші','📐','сызба сызады'],['Құрылысшы','👷','қабырға қалайды'],['Электрик','💡','жарық орнатады'],['Сырлаушы','🎨','үйді бояйды'],['Бағбан','🧑‍🌾','ағаш отырғызады']];
+let hStep=0;
+function buildHouse(){
+  hStep=0;document.querySelectorAll('.house .part').forEach(p=>p.classList.remove('show'));
+  document.getElementById('hDone').style.display='none';document.getElementById('hMsg').textContent='Кім бірінші бастайды? 🤔';
+  const S=document.getElementById('hSteps');
+  S.innerHTML=shuffle(hOrder).map(p=>`<button class="chip" data-k="${p[0]}"><span class="em">${p[1]}</span>${p[0]}</button>`).join('');
+  [...S.children].forEach(b=>b.onclick=()=>{
+    const want=hOrder[hStep];
+    if(b.dataset.k===want[0]){
+      b.classList.add('ok');beep(1);
+      document.getElementById('h'+(hStep+1)).classList.add('show');
+      if(hStep===1) document.getElementById('h1').classList.remove('show');
+      if(hStep===3){document.getElementById('h2').classList.remove('show');document.getElementById('h3').classList.remove('show')}
+      document.getElementById('hMsg').textContent=`${want[1]} ${want[0]} ${want[2]}!`+(hStep<4?' Ал енді кім?':'');
+      hStep++;
+      if(hStep===5){document.getElementById('hDone').style.display='block';confetti(60)}
+    }else{b.classList.add('bad');beep(0);document.getElementById('hMsg').textContent='Әзірге ерте! Алдымен басқа маман керек 😉';setTimeout(()=>b.classList.remove('bad'),400)}
+  });
+}
+buildHouse();
+
+/* ---------- tree ---------- */
+const profs=[['Дәрігер','👩‍⚕️'],['Мұғалім','👩‍🏫'],['Ұшқыш','🧑‍✈️'],['Полицей','👮'],['Аспаз','🧑‍🍳'],['Ғарышкер','🧑‍🚀'],['Суретші','🧑‍🎨'],['Спортшы','⛹️'],['Бағдарламашы','🧑‍💻'],['Ғалым','🧑‍🔬'],['Әнші','🧑‍🎤'],['Өрт сөндіруші','🧑‍🚒']];
+let tSel=null;const leafSpots=[[50,22],[30,38],[70,36],[22,55],[50,45],[78,52],[38,28],[62,25],[35,60],[65,62],[15,42],[85,40],[50,62],[28,48],[72,46]];let leafN=0;
+const P=document.getElementById('tPick');
+P.innerHTML=profs.map((p,i)=>`<button class="pick" data-i="${i}"><span>${p[1]}</span>${p[0]}</button>`).join('');
+[...P.children].forEach(b=>b.onclick=()=>{[...P.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');tSel=profs[b.dataset.i];document.getElementById('tSay').textContent=tSel[0].toLowerCase()});
+function addLeaf(){
+  const name=document.getElementById('tName').value.trim(),m=document.getElementById('tMsg');
+  if(!name){m.textContent='Атыңды жаз ✏️';return} if(!tSel){m.textContent='Мамандықты таңда 👆';return}
+  const [x,y]=leafSpots[leafN%leafSpots.length];leafN++;
+  const l=document.createElement('div');l.className='leaf';l.style.left=x+'%';l.style.top=y+'%';l.innerHTML=`<b>${tSel[1]}</b>${name}`;
+  l.title=tSel[0];document.getElementById('treeBox').appendChild(l);
+  beep(1);m.textContent=`${name}, арманың орындалсын! 🌱`;
+  document.getElementById('tName').value='';
+}
+
+/* ---------- wheel ---------- */
+const wq=[
+  ['Жұмбақ','Хат пен сәлемдеме әкеледі, есікті қағып береді. Бұл кім?','Пошташы 📮'],
+  ['Иә ма, жоқ па?','Ұшқыш пойызды басқарады. Дұрыс па?','Жоқ! Ұшқыш ұшақты басқарады, пойызды машинист жүргізеді 🚆'],
+  ['Артық затты тап','Шаштаразға қайсысы артық: қайшы, тарақ, балта, фен?','Балта 🪓 — ол ағаш шабуға керек'],
+  ['Дыбысынан тап','«Ии-уу, ии-уу!» Бұл қай көліктің дыбысы? Онда кім жұмыс істейді?','Жедел жәрдем 🚑 — дәрігерлер, немесе өрт сөндірушілер 🚒'],
+  ['Қимылмен көрсет','Аспаздың жұмысын қимылмен көрсет! Сыныптастарың табуы керек.','Жарайсың! Аспаз ас дайындайды 🍲'],
+  ['Қай жерде жұмыс істейді?','Мұғалім, дәрігер, наубайшы қай жерде жұмыс істейді?','Мектепте 🏫, ауруханада 🏥, наубайханада 🥖'],
+  ['Арман сөз','Сөйлемді аяқта: «Мен ... болғым келеді, себебі ...»','Керемет арман! Оған білім мен еңбек арқылы жетесің 🌟']
+];
+const wc=['#ff6b5b','#ffc93c','#5cc98a','#4cc9f0','#8e5cf7','#ff8fa3','#2f9e8f'];
+let rot=0,used=[],wScore=0,spinning=false;
+function drawWheel(){
+  const W=document.getElementById('wheel');let s='';const n=7,a=2*Math.PI/n;
+  for(let i=0;i<n;i++){
+    const a0=-Math.PI/2+i*a-a/2,a1=a0+a;
+    const x0=95*Math.cos(a0),y0=95*Math.sin(a0),x1=95*Math.cos(a1),y1=95*Math.sin(a1);
+    const mid=a0+a/2,tx=62*Math.cos(mid),ty=62*Math.sin(mid);
+    s+=`<path d="M0 0 L${x0} ${y0} A95 95 0 0 1 ${x1} ${y1}Z" fill="${used.includes(i)?'#cfd8d3':wc[i]}" stroke="#fff" stroke-width="2"/>`;
+    s+=`<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" font-family="Rubik" font-weight="800" font-size="22" fill="#fff" transform="rotate(${mid*180/Math.PI+90} ${tx} ${ty})">${used.includes(i)?'✓':i+1}</text>`;
+  }
+  W.innerHTML=s;
+  document.getElementById('players').innerHTML=wq.map((q,i)=>`<div class="pl ${used.includes(i)?'done':''}">${i+1}</div>`).join('');
+}
+function spin(){
+  if(spinning)return; const free=[...Array(7).keys()].filter(i=>!used.includes(i));
+  if(!free.length){document.getElementById('qcard').innerHTML='<div class="kind">Аяқталды</div><h3>🎉 7 оқушы да жауап берді! Жарайсыңдар!</h3>';confetti(70);return}
+  spinning=true;const pick=free[Math.floor(Math.random()*free.length)];
+  const seg=360/7;const target=-(pick*seg);const cur=((rot%360)+360)%360;
+  let delta=((target-cur)%360+360)%360; rot+=360*5+delta;
+  document.getElementById('wheel').style.transform=`rotate(${rot}deg)`;beep(1);
+  setTimeout(()=>{spinning=false;used.push(pick);showQ(pick);drawWheel()},4100);
+}
+function showQ(i){
+  const q=wq[i];
+  document.getElementById('qcard').innerHTML=`<div class="kind">${i+1}-сектор · ${q[0]}</div><h3>${q[1]}</h3><button class="btn ghost" onclick="this.nextElementSibling.style.display='block'">👀 Жауабын көрсету</button> <button class="btn" onclick="star(this)">⭐ Жұлдызша беру</button><div class="ans">${q[2]}</div>`;
+}
+function star(b){wScore++;document.getElementById('wScore').textContent=wScore;b.disabled=true;b.style.opacity=.5;beep(1);confetti(20)}
+function resetWheel(){used=[];wScore=0;document.getElementById('wScore').textContent=0;document.getElementById('qcard').innerHTML='<div class="kind">Дайынсың ба?</div><h3>Дөңгелекті айналдыр — сұрақ осы жерде шығады!</h3>';drawWheel()}
+drawWheel();
+
+/* ---------- safety ---------- */
+const lamps=[
+  ['✋ ТОҚТА!','#e03131',['Ашуланба, төбелеспе.','3 рет терең дем ал: тыныш... тыныш... тыныш...']],
+  ['🤔 ОЙЛАН!','#d9a400',['Досым қазір қандай күйде? Ол мұңайып тұр.','Батыл, бірақ сабырмен айт: «Тоқта, олай істеме! Ол менің досым».']],
+  ['🤗 КӨМЕКТЕС!','#2b8a3e',['Досыңды жұбат, қолынан ұста, ойынға шақыр.','Қайталанса — мұғалімге, ата-анаңа айт. Бұл — сатқындық емес, көмек сұрау!']]
+];
+function lamp(i){
+  document.querySelectorAll('.lamp').forEach((l,k)=>l.classList.toggle('lit',k===i));beep(1);
+  const L=lamps[i];document.getElementById('tlText').innerHTML=`<h3 style="color:${L[1]}">${L[0]}</h3>`+L[2].map(t=>`<p>• ${t}</p>`).join('');
+}
+const sits=[
+  ['Досыңды біреу мазақтап жатыр. Сен көрмегендей өтіп кетесің.',false,'Досыңды жалғыз қалдырма. Жанына бар!'],
+  ['Сен: «Тоқта, олай істеме! Ол менің досым», — деп батыл айтасың.',true,'Дұрыс! Сабырлы, батыл сөз — күшті қару.'],
+  ['Досыңды ренжіткен баланы итеріп жібересің.',false,'Төбелес — шешім емес. Сөзбен шеш немесе үлкендерге айт.'],
+  ['Жылап тұрған досыңды құшақтап, жұбатасың.',true,'Керемет! Жанашыр дос — нағыз дос.'],
+  ['Досыңды үнемі ренжітсе, мұғалімге айтасың.',true,'Дұрыс! Үлкендерге айту — көмек сұрау.'],
+  ['Ренжіген досыңа: «Өзің кінәлісің», — дейсің.',false,'Бұлай айтпа. Досыңды қолдап, жылы сөз айт.']
+];
+let sScore=0;
+document.getElementById('sits').innerHTML=sits.map((s,i)=>`<div class="sit"><p>${i+1}. ${s[0]}</p><div class="row"><button class="yes" onclick="ans(${i},true,this)">👍 Дұрыс</button><button class="no" onclick="ans(${i},false,this)">👎 Бұрыс</button></div><div class="fb" id="fb${i}"></div></div>`).join('');
+const answered=new Set();
+function ans(i,v,b){
+  const fb=document.getElementById('fb'+i),ok=sits[i][1]===v;
+  fb.className='fb '+(ok?'ok':'err');fb.textContent=(ok?'✅ ':'❌ ')+sits[i][2];beep(ok);
+  if(ok&&!answered.has(i)){answered.add(i);sScore++;document.getElementById('sScore').textContent=sScore;if(sScore===6)confetti()}
+}
+
+/* ---------- reflection ---------- */
+const votes=[0,0,0];
+function vote(i){votes[i]++;document.getElementById('v'+i).textContent=votes[i];beep(1);confetti(15)}
+</script>
+</body>
+</html>
